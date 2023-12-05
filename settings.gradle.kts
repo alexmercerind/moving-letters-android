@@ -15,3 +15,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "Moving Letters Example"
 include(":app")
+include(":moving-letters")
