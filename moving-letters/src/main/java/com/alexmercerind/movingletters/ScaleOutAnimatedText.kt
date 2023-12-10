@@ -36,6 +36,7 @@ fun ScaleOutAnimatedText(
     easing: Easing = EaseInOut,
     animationDuration: Duration = 200.milliseconds,
     intermediateDuration: Duration = 50.milliseconds,
+    animateOnMount: Boolean = true
 ) {
     val animationSpec: FiniteAnimationSpec<Float> =
         tween(animationDuration.toDouble(DurationUnit.MILLISECONDS).toInt(), 0, easing)
@@ -54,7 +55,9 @@ fun ScaleOutAnimatedText(
     }
 
     LaunchedEffect("ScaleOutAnimatedText", Dispatchers.IO) {
-        state.start()
+        if (animateOnMount) {
+            state.start()
+        }
     }
 
     Box(modifier = modifier.clipToBounds()) {
@@ -74,6 +77,7 @@ fun ScaleOutAnimatedText(
                         y / it.multiParagraph.height
                     )
                 }
+                state.layout.complete(Any())
             }
         )
         if (state.current >= 0) {

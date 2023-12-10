@@ -9,6 +9,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.TransformOrigin
 import androidx.compose.ui.text.TextStyle
+import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -22,7 +23,10 @@ import kotlin.time.Duration
  */
 class AnimatedTextState() {
     /** Whether this instance is attached to an animated text. */
-    var attached = false
+    internal var attached = false
+
+    /** Whether initial text layout has been done. */
+    internal val layout = CompletableDeferred<Any>()
 
     private var _visibility: List<MutableState<Boolean>>? = null
     private var _transformOrigin: MutableList<TransformOrigin>? = null
@@ -32,40 +36,41 @@ class AnimatedTextState() {
     private var _animationDuration: Duration? = null
     private var _intermediateDuration: Duration? = null
 
-    var visibility: List<MutableState<Boolean>>
+    internal var visibility: List<MutableState<Boolean>>
         get() = _visibility!!
         set(value) {
             _visibility = value
         }
-    var transformOrigin: MutableList<TransformOrigin>
+    internal var transformOrigin: MutableList<TransformOrigin>
         get() = _transformOrigin!!
         set(value) {
             _transformOrigin = value
         }
-    var style: TextStyle
+    internal var style: TextStyle
         get() = _style!!
         set(value) {
             _style = value
         }
-    var easing: Easing
+    internal var easing: Easing
         get() = _easing!!
         set(value) {
             _easing = value
         }
-    var animationDuration: Duration
+    internal var animationDuration: Duration
         get() = _animationDuration!!
         set(value) {
             _animationDuration = value
         }
-    var intermediateDuration: Duration
+    internal var intermediateDuration: Duration
         get() = _intermediateDuration!!
         set(value) {
             _intermediateDuration = value
         }
 
-    var current by mutableStateOf(-1)
+    internal var current by mutableStateOf(-1)
 
-    fun reset() {
+    suspend fun reset() {
+        layout.await()
         current = -1
         for (i in visibility.indices) {
             visibility[i].value = false
@@ -74,6 +79,7 @@ class AnimatedTextState() {
 
     @OptIn(DelicateCoroutinesApi::class)
     suspend fun start() {
+        layout.await()
         reset()
         for (i in visibility.indices) {
             delay(intermediateDuration)
