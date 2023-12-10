@@ -3,10 +3,17 @@ package com.alexmercerind.movingletters
 import androidx.compose.animation.core.Easing
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.TransformOrigin
 import androidx.compose.ui.text.TextStyle
+import kotlinx.coroutines.DelicateCoroutinesApi
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import kotlin.time.Duration
 
 /**
@@ -56,17 +63,27 @@ class AnimatedTextState() {
             _intermediateDuration = value
         }
 
+    var current by mutableStateOf(-1)
+
     fun reset() {
-        for (item in visibility) {
-            item.value = false
+        current = -1
+        for (i in visibility.indices) {
+            visibility[i].value = false
         }
     }
 
+    @OptIn(DelicateCoroutinesApi::class)
     suspend fun start() {
         reset()
-        for (item in visibility) {
+        for (i in visibility.indices) {
             delay(intermediateDuration)
-            item.value = true
+            visibility[i].value = true
+            GlobalScope.launch(Dispatchers.IO) {
+                delay(animationDuration)
+                current = i
+                delay(100)
+                visibility[i].value = false
+            }
         }
     }
 }

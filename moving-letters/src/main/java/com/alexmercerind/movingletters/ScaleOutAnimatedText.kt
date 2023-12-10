@@ -9,7 +9,6 @@ import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.scaleIn
-import androidx.compose.animation.scaleOut
 import androidx.compose.foundation.layout.Box
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.Text
@@ -77,11 +76,21 @@ fun ScaleOutAnimatedText(
                 }
             }
         )
+        if (state.current >= 0) {
+            Text(
+                text = buildAnnotatedString {
+                    addStyle(state.style.toSpanStyle(), 0, state.current)
+                    addStyle(state.style.copy(color = Color.Transparent).toSpanStyle(), state.current + 1, text.length)
+                    append(text)
+                },
+                style = state.style,
+            )
+        }
         for (i in text.indices) {
             AnimatedVisibility(
                 visible = state.visibility[i].value,
                 enter = scaleIn(transformOrigin = state.transformOrigin[i], animationSpec = animationSpec) + fadeIn(animationSpec = animationSpec),
-                exit = scaleOut(transformOrigin = state.transformOrigin[i], animationSpec = animationSpec) + fadeOut(animationSpec = animationSpec)
+                exit = fadeOut(animationSpec = tween(0))
             ) {
                 Text(
                     text = buildAnnotatedString {
