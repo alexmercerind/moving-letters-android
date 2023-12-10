@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Moving Letters Example</string>
+    <string name="restart">Restart</string>
+    <string name="sample_text">The quick brown fox jumps over the lazy dog!</string>
 </resources>
