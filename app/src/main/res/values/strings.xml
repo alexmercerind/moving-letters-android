@@ -1,6 +1,12 @@
 <resources>
-    <string name="app_name">Moving Letters Example</string>
+    <string name="app_name">Moving Letters</string>
     <string name="code">Code</string>
-    <string name="restart">Restart</string>
-    <string name="sample_text">The quick brown fox jumps over the lazy dog!</string>
+    <string name="effect">Effect %1$d</string>
+    <string name="github">GitHub</string>
+    <string name="pause">Pause</string>
+    <string name="resume">Resume</string>
+    <string name="start">Start</string>
+    <string name="state">State</string>
+    <string name="stop">Stop</string>
+    <string name="text">The quick brown fox jumps over the lazy dog!</string>
 </resources>
