@@ -28,7 +28,7 @@ import kotlin.time.DurationUnit
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
-fun ScaleOutAnimatedText(
+fun ScaleInAnimatedText(
     modifier: Modifier = Modifier,
     state: AnimatedTextState? = null,
     text: String,
@@ -93,7 +93,7 @@ fun ScaleOutAnimatedText(
         for (i in text.indices) {
             AnimatedVisibility(
                 visible = current.visibility[i].value,
-                enter = scaleIn(transformOrigin = current.transformOrigin[i], animationSpec = animationSpec, initialScale = 2.0F) + fadeIn(animationSpec = animationSpec),
+                enter = scaleIn(transformOrigin = current.transformOrigin[i], animationSpec = animationSpec) + fadeIn(animationSpec = animationSpec),
                 exit = fadeOut(animationSpec = tween(0))
             ) {
                 Text(
