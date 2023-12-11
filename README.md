@@ -6,19 +6,27 @@
 
 Following text animations are available:
 
-### ScaleInAnimatedText
+#### ScaleInAnimatedText
 
-<img width="300" src="https://github.com/alexmercerind/moving-letters-android/assets/28951144/ab06f6c0-ceed-4e42-a0ae-cb1b0885a3dd"></img>
+<img width="300" src="https://github.com/alexmercerind/moving-letters-android/assets/28951144/4cbc4245-bc86-4279-8c50-f63017196c1d"></img>
 
-### ScaleOutAnimatedText
+#### ScaleOutAnimatedText
 
-<img width="300" src="https://github.com/alexmercerind/moving-letters-android/assets/28951144/524aca06-16c1-4e8b-8396-9a6445e7be27"></img>
+<img width="300" src="https://github.com/alexmercerind/moving-letters-android/assets/28951144/eaacb4b2-a826-4d11-b709-6dcb40a9f2bd"></img>
 
-<br></br>
-TODO:
-<br></br>
+#### FadeAnimatedText
 
-### Programmatic API
+<img width="300" src="https://github.com/alexmercerind/moving-letters-android/assets/28951144/00123137-bc65-4ddc-aca3-425e5a3fce7e"></img>
+
+#### JumpAnimatedText
+
+<img width="300" src="https://github.com/alexmercerind/moving-letters-android/assets/28951144/05ba4ce8-6f79-4378-8701-a6ce48f59531"></img>
+
+#### RotateAnimatedText
+
+<img width="300" src="https://github.com/alexmercerind/moving-letters-android/assets/28951144/79f807c7-b9fa-4f1a-8fee-13fc538cda74"></img>
+
+#### Programmatic API
 
 You may use `AnimatedTextState` as follows to control the animation programmatically:
 
