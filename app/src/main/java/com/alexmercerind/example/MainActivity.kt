@@ -13,6 +13,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.alexmercerind.movingletters.FadeAnimatedText
 import com.alexmercerind.movingletters.JumpAnimatedText
+import com.alexmercerind.movingletters.RotateAnimatedText
 import com.alexmercerind.movingletters.ScaleInAnimatedText
 import com.alexmercerind.movingletters.ScaleOutAnimatedText
 
@@ -35,7 +36,8 @@ class MainActivity : ComponentActivity() {
                                 Destinations.Effect1 to (Color(0xFFFFFFFF) to Color(0xFF9CA4B5)),
                                 Destinations.Effect2 to (Color(0xFFFFFFFF) to Color(0xFFE7C3B9)),
                                 Destinations.Effect3 to (Color(0xFFFFFFFF) to Color(0xFF234A54)),
-                                Destinations.Effect4 to (Color(0xFFFFFFFF) to Color(0xFFC1605D))
+                                Destinations.Effect4 to (Color(0xFFFFFFFF) to Color(0xFFC1605D)),
+                                Destinations.Effect5 to (Color(0xFFFFFFFF) to Color(0xFF46373C))
                             )
                         )
                     }
@@ -97,6 +99,21 @@ class MainActivity : ComponentActivity() {
                             },
                             contentColor = Color(0xFFFFFFFF),
                             containerColor = Color(0xFFC1605D)
+                        )
+                    }
+                    composable(Destinations.Effect5.value) {
+                        AnimatedTextScreen(
+                            name = "RotateAnimatedText",
+                            content = { state, text ->
+                                RotateAnimatedText(
+                                    state = state,
+                                    text = text,
+                                    style = MaterialTheme.typography.displayLarge.copy(fontWeight = FontWeight.Black),
+                                    animateOnMount = false
+                                )
+                            },
+                            contentColor = Color(0xFFFFFFFF),
+                            containerColor = Color(0xFF46373C)
                         )
                     }
                 }

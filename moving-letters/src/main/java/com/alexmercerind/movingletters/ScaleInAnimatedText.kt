@@ -34,7 +34,7 @@ fun ScaleInAnimatedText(
     text: String,
     style: TextStyle? = null,
     easing: Easing = EaseInOut,
-    animationDuration: Duration = 200.milliseconds,
+    animationDuration: Duration = 300.milliseconds,
     intermediateDuration: Duration = 50.milliseconds,
     animateOnMount: Boolean = true
 ) {

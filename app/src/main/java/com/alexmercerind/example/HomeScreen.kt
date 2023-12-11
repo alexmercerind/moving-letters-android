@@ -46,6 +46,7 @@ fun HomeScreen(
         snapAnimationSpec = null
     )
     Scaffold(
+        containerColor = Color.Black,
         topBar = {
             LargeTopAppBar(
                 title = { Text(text = stringResource(id = R.string.app_name)) },
