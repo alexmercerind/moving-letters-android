@@ -38,19 +38,19 @@ XYZAnimatedText(
     text = "I like Jetpack Compose"
 )
 
-// Start
-state.start()
-// Stop
 state.stop()
-// Resume
-state.resume()
-// Pause
 state.pause()
+state.start()
+state.resume()
 ```
 
-### Example Application
+#### Example Application
 
-You may refer to the [source code of example application](https://github.com/alexmercerind/moving-letters-android/tree/main/app/src/main/java/com/alexmercerind/example) for further details.
+<img width="300" src="https://github.com/alexmercerind/moving-letters-android/assets/28951144/b9ad1f5a-0546-47e3-89c6-40159dfefc88"></img>
+
+You may download the [APK](https://github.com/alexmercerind/moving-letters-android/files/13639901/app-release.zip) quick trial.
+
+The [source-code of the example application](https://github.com/alexmercerind/moving-letters-android/tree/main/app/src/main/java/com/alexmercerind/example) provides more details.
 
 ## Inspiration
 
