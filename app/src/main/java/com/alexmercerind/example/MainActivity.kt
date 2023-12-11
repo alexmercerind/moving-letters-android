@@ -11,6 +11,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.alexmercerind.movingletters.FadeAnimatedText
+import com.alexmercerind.movingletters.JumpAnimatedText
 import com.alexmercerind.movingletters.ScaleInAnimatedText
 import com.alexmercerind.movingletters.ScaleOutAnimatedText
 
@@ -31,7 +33,9 @@ class MainActivity : ComponentActivity() {
                             navController = navController,
                             effects = mapOf(
                                 Destinations.Effect1 to (Color(0xFFFFFFFF) to Color(0xFF9CA4B5)),
-                                Destinations.Effect2 to (Color(0xFFFFFFFF) to Color(0xFFE7C3B9))
+                                Destinations.Effect2 to (Color(0xFFFFFFFF) to Color(0xFFE7C3B9)),
+                                Destinations.Effect3 to (Color(0xFFFFFFFF) to Color(0xFF234A54)),
+                                Destinations.Effect4 to (Color(0xFFFFFFFF) to Color(0xFFC1605D))
                             )
                         )
                     }
@@ -63,6 +67,36 @@ class MainActivity : ComponentActivity() {
                             },
                             contentColor = Color(0xFFFFFFFF),
                             containerColor = Color(0xFFE7C3B9)
+                        )
+                    }
+                    composable(Destinations.Effect3.value) {
+                        AnimatedTextScreen(
+                            name = "FadeAnimatedText",
+                            content = { state, text ->
+                                FadeAnimatedText(
+                                    state = state,
+                                    text = text,
+                                    style = MaterialTheme.typography.displayLarge.copy(fontWeight = FontWeight.Black),
+                                    animateOnMount = false
+                                )
+                            },
+                            contentColor = Color(0xFFFFFFFF),
+                            containerColor = Color(0xFF234A54)
+                        )
+                    }
+                    composable(Destinations.Effect4.value) {
+                        AnimatedTextScreen(
+                            name = "JumpAnimatedText",
+                            content = { state, text ->
+                                 JumpAnimatedText(
+                                    state = state,
+                                    text = text,
+                                    style = MaterialTheme.typography.displayLarge.copy(fontWeight = FontWeight.Black),
+                                    animateOnMount = false
+                                )
+                            },
+                            contentColor = Color(0xFFFFFFFF),
+                            containerColor = Color(0xFFC1605D)
                         )
                     }
                 }

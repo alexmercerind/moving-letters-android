@@ -14,4 +14,12 @@ interface Destinations {
     object Effect2: Destinations {
         override val value = "Effect2"
     }
+
+    object Effect3: Destinations {
+        override val value = "Effect3"
+    }
+
+    object Effect4: Destinations {
+        override val value = "Effect4"
+    }
 }

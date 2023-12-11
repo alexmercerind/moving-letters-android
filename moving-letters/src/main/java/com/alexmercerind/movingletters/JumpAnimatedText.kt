@@ -1,14 +1,13 @@
 package com.alexmercerind.movingletters
 
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.ExperimentalAnimationApi
-import androidx.compose.animation.core.EaseInOut
-import androidx.compose.animation.core.Easing
 import androidx.compose.animation.core.FiniteAnimationSpec
+import androidx.compose.animation.core.Spring.DampingRatioMediumBouncy
+import androidx.compose.animation.core.Spring.StiffnessMediumLow
+import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.tween
-import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
-import androidx.compose.animation.scaleIn
+import androidx.compose.animation.slideInVertically
 import androidx.compose.foundation.layout.Box
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.Text
@@ -21,25 +20,23 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.TransformOrigin
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.unit.IntOffset
 import kotlinx.coroutines.Dispatchers
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.milliseconds
-import kotlin.time.DurationUnit
 
-@OptIn(ExperimentalAnimationApi::class)
 @Composable
-fun ScaleInAnimatedText(
+fun JumpAnimatedText(
     modifier: Modifier = Modifier,
     state: AnimatedTextState? = null,
     text: String,
     style: TextStyle? = null,
-    easing: Easing = EaseInOut,
-    animationDuration: Duration = 200.milliseconds,
-    intermediateDuration: Duration = 50.milliseconds,
+    dampingRatio: Float = DampingRatioMediumBouncy,
+    stiffness: Float = StiffnessMediumLow,
+    intermediateDuration: Duration = 80.milliseconds,
     animateOnMount: Boolean = true
 ) {
-    val animationSpec: FiniteAnimationSpec<Float> =
-        tween(animationDuration.toDouble(DurationUnit.MILLISECONDS).toInt(), 0, easing)
+    val animationSpec: FiniteAnimationSpec<IntOffset> = spring(dampingRatio, stiffness)
 
     val currentStyle = style ?: LocalTextStyle.current
     val currentState = state ?: rememberAnimatedTextState()
@@ -50,11 +47,11 @@ fun ScaleInAnimatedText(
         currentState.lineHeight = text.map { 0.0F }.toMutableList()
         currentState.transformOrigin = text.map { TransformOrigin.Center }.toMutableList()
 
-        currentState.animationDuration = animationDuration
+        currentState.animationDuration = 2000.milliseconds
         currentState.intermediateDuration = intermediateDuration
     }
 
-    LaunchedEffect("ScaleInAnimatedText", Dispatchers.IO) {
+    LaunchedEffect("JumpAnimatedText", Dispatchers.IO) {
         if (animateOnMount) {
             currentState.start()
         }
@@ -94,7 +91,12 @@ fun ScaleInAnimatedText(
         for (i in text.indices) {
             AnimatedVisibility(
                 visible = currentState.visibility[i].value,
-                enter = scaleIn(transformOrigin = currentState.transformOrigin[i], animationSpec = animationSpec) + fadeIn(animationSpec = animationSpec),
+                enter = slideInVertically(
+                    animationSpec = animationSpec,
+                    initialOffsetY =  {
+                        (0.5F * currentState.lineHeight[i]).toInt()
+                    }
+                ),
                 exit = fadeOut(animationSpec = tween(0))
             ) {
                 Text(

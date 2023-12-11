@@ -1,14 +1,12 @@
 package com.alexmercerind.movingletters
 
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.EaseInOut
 import androidx.compose.animation.core.Easing
 import androidx.compose.animation.core.FiniteAnimationSpec
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
-import androidx.compose.animation.scaleIn
 import androidx.compose.foundation.layout.Box
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.Text
@@ -26,9 +24,8 @@ import kotlin.time.Duration
 import kotlin.time.Duration.Companion.milliseconds
 import kotlin.time.DurationUnit
 
-@OptIn(ExperimentalAnimationApi::class)
 @Composable
-fun ScaleInAnimatedText(
+fun FadeAnimatedText(
     modifier: Modifier = Modifier,
     state: AnimatedTextState? = null,
     text: String,
@@ -54,7 +51,7 @@ fun ScaleInAnimatedText(
         currentState.intermediateDuration = intermediateDuration
     }
 
-    LaunchedEffect("ScaleInAnimatedText", Dispatchers.IO) {
+    LaunchedEffect("FadeAnimatedText", Dispatchers.IO) {
         if (animateOnMount) {
             currentState.start()
         }
@@ -94,7 +91,7 @@ fun ScaleInAnimatedText(
         for (i in text.indices) {
             AnimatedVisibility(
                 visible = currentState.visibility[i].value,
-                enter = scaleIn(transformOrigin = currentState.transformOrigin[i], animationSpec = animationSpec) + fadeIn(animationSpec = animationSpec),
+                enter = fadeIn(animationSpec = animationSpec),
                 exit = fadeOut(animationSpec = tween(0))
             ) {
                 Text(

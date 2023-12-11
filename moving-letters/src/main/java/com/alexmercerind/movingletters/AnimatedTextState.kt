@@ -61,10 +61,9 @@ class AnimatedTextState() {
     private var _stopped = MutableStateFlow(true)
 
     private var _visibility: List<MutableState<Boolean>>? = null
+    private var _lineHeight: MutableList<Float>? = null
     private var _transformOrigin: MutableList<TransformOrigin>? = null
 
-    private var _style: TextStyle? = null
-    private var _easing: Easing? = null
     private var _animationDuration: Duration? = null
     private var _intermediateDuration: Duration? = null
 
@@ -73,20 +72,15 @@ class AnimatedTextState() {
         set(value) {
             _visibility = value
         }
+    internal var lineHeight: MutableList<Float>
+        get() = _lineHeight!!
+        set(value) {
+            _lineHeight = value
+        }
     internal var transformOrigin: MutableList<TransformOrigin>
         get() = _transformOrigin!!
         set(value) {
             _transformOrigin = value
-        }
-    internal var style: TextStyle
-        get() = _style!!
-        set(value) {
-            _style = value
-        }
-    internal var easing: Easing
-        get() = _easing!!
-        set(value) {
-            _easing = value
         }
     internal var animationDuration: Duration
         get() = _animationDuration!!

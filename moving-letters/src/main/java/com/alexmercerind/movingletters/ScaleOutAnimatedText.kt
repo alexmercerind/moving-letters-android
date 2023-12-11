@@ -41,29 +41,29 @@ fun ScaleOutAnimatedText(
     val animationSpec: FiniteAnimationSpec<Float> =
         tween(animationDuration.toDouble(DurationUnit.MILLISECONDS).toInt(), 0, easing)
 
-    val current = state ?: rememberAnimatedTextState()
-    if (!current.attached) {
-        current.attached = true
+    val currentStyle = style ?: LocalTextStyle.current
+    val currentState = state ?: rememberAnimatedTextState()
+    if (!currentState.attached) {
+        currentState.attached = true
 
-        current.visibility = text.map { mutableStateOf(false) }
-        current.transformOrigin = text.map { TransformOrigin.Center }.toMutableList()
+        currentState.visibility = text.map { mutableStateOf(false) }
+        currentState.lineHeight = text.map { 0.0F }.toMutableList()
+        currentState.transformOrigin = text.map { TransformOrigin.Center }.toMutableList()
 
-        current.style = style ?: LocalTextStyle.current
-        current.easing = easing
-        current.animationDuration = animationDuration
-        current.intermediateDuration = intermediateDuration
+        currentState.animationDuration = animationDuration
+        currentState.intermediateDuration = intermediateDuration
     }
 
     LaunchedEffect("ScaleOutAnimatedText", Dispatchers.IO) {
         if (animateOnMount) {
-            current.start()
+            currentState.start()
         }
     }
 
     Box(modifier = modifier.clipToBounds()) {
         Text(
             text = text,
-            style = current.style.copy(color = Color.Transparent),
+            style = currentStyle.copy(color = Color.Transparent),
             onTextLayout = {
                 for (offset in text.indices) {
                     val x = it.multiParagraph.getBoundingBox(offset).width / 2 + it.multiParagraph.getHorizontalPosition(offset, true)
@@ -72,37 +72,38 @@ fun ScaleOutAnimatedText(
                     for (i in 0..line) {
                         y += if (i == line) it.multiParagraph.getLineHeight(i) / 2 else it.multiParagraph.getLineHeight(i)
                     }
-                    current.transformOrigin[offset] = TransformOrigin(
+                    currentState.transformOrigin[offset] = TransformOrigin(
                         x / it.multiParagraph.width,
                         y / it.multiParagraph.height
                     )
+                    currentState.lineHeight[offset] = it.multiParagraph.getLineHeight(line)
                 }
-                current.layout.complete(Any())
+                currentState.layout.complete(Any())
             }
         )
-        if (current.current >= 0) {
+        if (currentState.current >= 0) {
             Text(
                 text = buildAnnotatedString {
-                    addStyle(current.style.toSpanStyle(), 0, current.current)
-                    addStyle(current.style.copy(color = Color.Transparent).toSpanStyle(), current.current + 1, text.length)
+                    addStyle(currentStyle.toSpanStyle(), 0, currentState.current)
+                    addStyle(currentStyle.copy(color = Color.Transparent).toSpanStyle(), currentState.current + 1, text.length)
                     append(text)
                 },
-                style = current.style,
+                style = currentStyle,
             )
         }
         for (i in text.indices) {
             AnimatedVisibility(
-                visible = current.visibility[i].value,
-                enter = scaleIn(transformOrigin = current.transformOrigin[i], animationSpec = animationSpec, initialScale = 2.0F) + fadeIn(animationSpec = animationSpec),
+                visible = currentState.visibility[i].value,
+                enter = scaleIn(transformOrigin = currentState.transformOrigin[i], animationSpec = animationSpec, initialScale = 2.0F) + fadeIn(animationSpec = animationSpec),
                 exit = fadeOut(animationSpec = tween(0))
             ) {
                 Text(
                     text = buildAnnotatedString {
-                        addStyle(current.style.toSpanStyle().copy(color = Color.Transparent), 0, i)
-                        addStyle(current.style.toSpanStyle().copy(color = Color.Transparent), i + 1, text.length)
+                        addStyle(currentStyle.toSpanStyle().copy(color = Color.Transparent), 0, i)
+                        addStyle(currentStyle.toSpanStyle().copy(color = Color.Transparent), i + 1, text.length)
                         append(text)
                     },
-                    style = current.style,
+                    style = currentStyle,
                 )
             }
         }
